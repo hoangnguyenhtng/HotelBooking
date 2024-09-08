@@ -2,7 +2,8 @@ package hotel.hotelbooking.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.joda.time.LocalDate;
+
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -25,6 +26,8 @@ public class Booking {
 
     private int numChild;
 
+    private int totalNumOfGuest;
+
     private double totalBill;
 
     private boolean paymentStatus;
@@ -39,4 +42,32 @@ public class Booking {
     @JoinColumn(name = "room_id")
     private Room room;
 
+    public void calculateTotalNumberOfGuest() {
+        this.totalNumOfGuest = this.numAdult + this.numChild;
+    }
+
+    public void setNumOfAdults(int numOfAdults) {
+        this.numAdult = numOfAdults;
+        calculateTotalNumberOfGuest();
+    }
+
+    public void setNumOfChildren(int numOfChildren) {
+        this.numChild = numOfChildren;
+        calculateTotalNumberOfGuest();
+    }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", checkInDate=" + checkInDate +
+                ", checkOutDate=" + checkOutDate +
+                ", numAdult=" + numAdult +
+                ", numChild=" + numChild +
+                ", totalNumOfGuest=" + totalNumOfGuest +
+                ", totalBill=" + totalBill +
+                ", paymentStatus=" + paymentStatus +
+                ", bookingConfirmationCode='" + bookingConfirmationCode + '\'' +
+                '}';
+    }
 }
