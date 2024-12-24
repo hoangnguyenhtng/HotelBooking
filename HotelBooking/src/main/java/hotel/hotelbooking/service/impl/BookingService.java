@@ -12,10 +12,15 @@ import hotel.hotelbooking.repo.UserRepository;
 import hotel.hotelbooking.service.interfac.IBookingService;
 import hotel.hotelbooking.service.interfac.IRoomService;
 import hotel.hotelbooking.utils.Utils;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 @Service
 public class BookingService implements IBookingService {
@@ -29,6 +34,8 @@ public class BookingService implements IBookingService {
     private RoomRepository roomRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private JavaMailSender mailSender;
 
 
     @Override
@@ -135,6 +142,30 @@ public class BookingService implements IBookingService {
 
         }
         return response;
+    }
+
+    @Override
+    public void sendBookingConfirmationEmail(String email, String confirmationCode) {
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("lintran2k3@gmail.com"); // Thêm dòng này
+            helper.setTo("tienbannguyen05@gmail.com");
+            helper.setSubject("Xác nhận đặt phòng thành công");
+            String htmlContent = "<html><body>" +
+                    "<p>Đơn đặt phòng của bạn đã thành công!</p>" +
+                    "<p>Mã đặt phòng của bạn là: <b>" + confirmationCode + "</b></p>" +
+                    "<p>Hãy mang mã này khi check-in.</p>" +
+                    "<p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi! Đừng quên lưu mã QR bên dưới để xác nhận:</p>" +
+                    "<p><img src='cid:image001'></p>" +
+                    "</body></html>";
+
+            helper.setText(htmlContent, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean roomIsAvailable(Booking bookingRequest, List<Booking> existingBookings) {

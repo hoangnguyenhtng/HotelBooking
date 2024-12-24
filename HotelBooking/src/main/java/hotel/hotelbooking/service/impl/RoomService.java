@@ -185,4 +185,27 @@ public class RoomService implements IRoomService {
         }
         return response;
     }
+
+    @Override
+    public Response getRoomByCityId(Long cityId) {
+        Response response = new Response();
+
+        try {
+            List<Room> roomList = roomRepository.findRoomByCityId(cityId);
+            List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(roomList);
+            response.setStatusCode(200);
+            response.setMessage("successful");
+            response.setRoomList(roomDTOList);
+
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error saving a room " + e.getMessage());
+        }
+        return response;
+    }
+
+
 }

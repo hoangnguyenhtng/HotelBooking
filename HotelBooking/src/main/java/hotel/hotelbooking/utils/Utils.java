@@ -31,10 +31,11 @@ public class Utils {
         UserDTO userDTO = new UserDTO();
 
         userDTO.setId(user.getId());
-        userDTO.setName(user.getFullName());
+        userDTO.setFullname(user.getFullname());
         userDTO.setEmail(user.getEmail());
         userDTO.setPhoneNumber(user.getPhoneNumber());
         userDTO.setRole(user.getRole());
+        userDTO.setCreatedAt(user.getCreatedAt());
         return userDTO;
     }
 
@@ -46,6 +47,9 @@ public class Utils {
         roomDTO.setRoomPrice(room.getRoomPrice());
         roomDTO.setRoomPhotoUrl(room.getRoomPhotoUrl());
         roomDTO.setRoomDescription(room.getRoomDescription());
+        roomDTO.setStatus(room.getStatus());
+        roomDTO.setCityId(room.getCityId());
+        roomDTO.setHotelId(room.getHotelId());
         return roomDTO;
     }
 
@@ -108,7 +112,7 @@ public class Utils {
         UserDTO userDTO = new UserDTO();
 
         userDTO.setId(user.getId());
-        userDTO.setName(user.getFullName());
+        userDTO.setFullname(user.getFullname());
         userDTO.setEmail(user.getEmail());
         userDTO.setPhoneNumber(user.getPhoneNumber());
         userDTO.setRole(user.getRole());

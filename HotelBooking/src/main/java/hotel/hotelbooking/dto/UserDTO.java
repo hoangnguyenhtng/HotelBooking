@@ -3,6 +3,7 @@ package hotel.hotelbooking.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +13,10 @@ import java.util.List;
 public class UserDTO {
     private Long id;
     private String email;
-    private String name;
+    private String fullname;
     private String phoneNumber;
     private String role;
+    private LocalDateTime createdAt;
     private List<BookingDTO> bookings = new ArrayList<>();
 
 }

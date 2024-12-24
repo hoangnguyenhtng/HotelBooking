@@ -34,6 +34,10 @@ public class Booking {
 
     private String bookingConfirmationCode;
 
+    @Enumerated(EnumType.STRING)  // Thêm annotation này
+    @Column(name = "status", length = 20)  // Thêm định nghĩa column
+    private BookingStatus status = BookingStatus.PENDING;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
@@ -41,6 +45,8 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
+
+
 
     public void calculateTotalNumberOfGuest() {
         this.totalNumOfGuest = this.numAdult + this.numChild;

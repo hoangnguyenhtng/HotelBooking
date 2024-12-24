@@ -23,6 +23,9 @@ public class BookingController {
 
 
         Response response = bookingService.saveBooking(roomId, userId, bookingRequest);
+        if (response.getStatusCode() == 200) {
+            bookingService.sendBookingConfirmationEmail(bookingRequest.getUser().getEmail(), response.getBookingConfirmationCode());
+        }
         return ResponseEntity.status(response.getStatusCode()).body(response);
 
     }

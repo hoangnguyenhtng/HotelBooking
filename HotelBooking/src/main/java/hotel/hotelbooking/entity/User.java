@@ -1,5 +1,6 @@
 package hotel.hotelbooking.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -7,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,7 +27,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "fullname", length = 100)
-    private String fullName;
+    private String fullname;
 
     @Column(name = "phone_number", length = 10, nullable = false)
     @NotBlank(message = "Số điện thoại là bắt buộc!")
@@ -44,6 +46,20 @@ public class User implements UserDetails {
 
     private String role;
 
+    @Column(name = "reset_code")
+    private String resetCode;
+
+    @Column(name = "reset_code_expiry")
+    private LocalDateTime resetCodeExpiry;
+
+    @Column(name = "verification_token")
+    private String verificationToken;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 
@@ -55,6 +71,11 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
     }
 
     @Override

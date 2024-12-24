@@ -1,5 +1,6 @@
 package hotel.hotelbooking.service.interfac;
 
+import hotel.hotelbooking.dto.ChangePasswordRequest;
 import hotel.hotelbooking.dto.LoginRequest;
 import hotel.hotelbooking.dto.Response;
 import hotel.hotelbooking.entity.User;
@@ -17,5 +18,10 @@ public interface IUserService {
 
     Response getUserById(String userId);
 
+    Response getUserByEmail(String email);
+
     Response getMyInfo(String email);
+
+    Response changePassword(String email, ChangePasswordRequest changePasswordRequest);
+
 }

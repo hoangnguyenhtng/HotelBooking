@@ -11,4 +11,6 @@ public interface IBookingService {
     Response getAllBookings();
 
     Response cancelBooking(Long bookingId);
-}
+
+    void sendBookingConfirmationEmail(String email, String confirmationCode);}
+

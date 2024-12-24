@@ -1,5 +1,6 @@
 package hotel.hotelbooking.controller;
 
+import hotel.hotelbooking.dto.ChangePasswordRequest;
 import hotel.hotelbooking.dto.Response;
 import hotel.hotelbooking.service.interfac.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,17 @@ public class UserController {
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
+    @GetMapping("/forgotPassword")
+    public String forgotPassword(){
+        return "security/forgotPassword";
+    }
 
-
+    @PostMapping("/change-password")
+    public ResponseEntity<Response> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Response response = userService.changePassword(email, changePasswordRequest);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
 
 }
